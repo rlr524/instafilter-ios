@@ -11,60 +11,89 @@ import CoreImage.CIFilterBuiltins
 
 struct ContentView: View {
     @State private var image: Image?
+    @State private var showingImagePicker = false
+    @State private var inputImage: UIImage?
     
     var body: some View {
         VStack {
             image?
                 .resizable()
                 .scaledToFit()
+            
+            Button("Select Image") {
+                showingImagePicker = true
+            }
         }
-        .onAppear(perform: loadImage)
+        .sheet(isPresented: $showingImagePicker) {
+            ImagePicker(image: $inputImage)
+        }
+        .onChange(of: inputImage) {
+            loadImage()
+        }
     }
     
     func loadImage() {
-        guard let inputImage = UIImage(named: "shalltear") else {
-            return
-        }
-        let beginImage = CIImage(image: inputImage)
-        
-        let context = CIContext()
-        let currentFilter = CIFilter.sepiaTone()
-        // let currentFilter = CIFilter.pixellate()
-        // let currentFilter = CIFilter.crystallize()
-        // let currentFilter = CIFilter.twirlDistortion()
-        
-        currentFilter.inputImage = beginImage
-        let amount = 1.0
-        let inputKeys = currentFilter.inputKeys
-        if inputKeys.contains(kCIInputIntensityKey) {
-            currentFilter.setValue(amount, forKey: kCIInputIntensityKey)
-        }
-        if inputKeys.contains(kCIInputRadiusKey) {
-            currentFilter.setValue(amount * 200, forKey: kCIInputRadiusKey)
-        }
-        if inputKeys.contains(kCIInputScaleKey) {
-            currentFilter.setValue(amount * 10, forKey: kCIInputScaleKey)
-        }
-        // currentFilter.intensity = 1
-        // currentFilter.scale = 100
-        // currentFilter.radius = 200
-        // currentFilter.radius = 1000
-        // currentFilter.center = CGPoint(x: inputImage.size.width / 2, y: inputImage.size.height / 2)
-        
-        // Get a CIImage from our filter or exit if that fails
-        guard let outputImage = currentFilter.outputImage else {
-            return
-        }
-        
-        // Attempt to get a CGImage from the CIImage
-        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-            // Convert that to a UIImage
-            let uiImage = UIImage(cgImage: cgimg)
-            
-            // And convert that to a SwiftUI image
-            image = Image(uiImage: uiImage)
-        }
+        guard let inputImage = inputImage else { return }
+        image = Image(uiImage: inputImage)
     }
+    
+    
+    
+//    @State private var image: Image?
+//    
+//    var body: some View {
+//        VStack {
+//            image?
+//                .resizable()
+//                .scaledToFit()
+//        }
+//        .onAppear(perform: loadImage)
+//    }
+//    
+//    func loadImage() {
+//        guard let inputImage = UIImage(named: "shalltear") else {
+//            return
+//        }
+//        let beginImage = CIImage(image: inputImage)
+//        
+//        let context = CIContext()
+//        let currentFilter = CIFilter.sepiaTone()
+//        // let currentFilter = CIFilter.pixellate()
+//        // let currentFilter = CIFilter.crystallize()
+//        // let currentFilter = CIFilter.twirlDistortion()
+//        
+//        currentFilter.inputImage = beginImage
+//        let amount = 1.0
+//        let inputKeys = currentFilter.inputKeys
+//        if inputKeys.contains(kCIInputIntensityKey) {
+//            currentFilter.setValue(amount, forKey: kCIInputIntensityKey)
+//        }
+//        if inputKeys.contains(kCIInputRadiusKey) {
+//            currentFilter.setValue(amount * 200, forKey: kCIInputRadiusKey)
+//        }
+//        if inputKeys.contains(kCIInputScaleKey) {
+//            currentFilter.setValue(amount * 10, forKey: kCIInputScaleKey)
+//        }
+//        // currentFilter.intensity = 1
+//        // currentFilter.scale = 100
+//        // currentFilter.radius = 200
+//        // currentFilter.radius = 1000
+//        // currentFilter.center = CGPoint(x: inputImage.size.width / 2, y: inputImage.size.height / 2)
+//        
+//        // Get a CIImage from our filter or exit if that fails
+//        guard let outputImage = currentFilter.outputImage else {
+//            return
+//        }
+//        
+//        // Attempt to get a CGImage from the CIImage
+//        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+//            // Convert that to a UIImage
+//            let uiImage = UIImage(cgImage: cgimg)
+//            
+//            // And convert that to a SwiftUI image
+//            image = Image(uiImage: uiImage)
+//        }
+//    }
 }
 
 //struct ContentView: View {
