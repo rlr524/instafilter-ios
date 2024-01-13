@@ -11,108 +11,81 @@ import CoreImage.CIFilterBuiltins
 
 struct ContentView: View {
     @State private var image: Image?
-    @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
+    @State private var filterIntensity = 0.5
     
     var body: some View {
-        VStack {
-            image?
-                .resizable()
-                .scaledToFit()
-            
-            Button("Select Image") {
-                showingImagePicker = true
-            }
-            
-            Button("Save Image") {
-                guard let inputImage = inputImage else { return }
+        NavigationView {
+            VStack {
+                ZStack {
+                    Rectangle()
+                        .fill(.secondary)
+                    
+                    Text("Tap to select a picture")
+                        .foregroundColor(.white)
+                        .font(.headline)
+                    
+                    image?
+                        .resizable()
+                        .scaledToFit()
+                }
+                .onTapGesture {
+                    // select an image
+                }
                 
-                let imageSaver = ImageSaver()
-                imageSaver.writePhotoToAlbum(image: inputImage)
+                HStack {
+                    Text("Intensity")
+                    Slider(value: $filterIntensity)
+                }
+                .padding(.vertical)
+                
+                HStack {
+                    Button("Change Filter") {
+                        // change filter
+                    }
+                    
+                    Spacer()
+                    
+                    Button("Save", action: save)
+                }
             }
-        }
-        .sheet(isPresented: $showingImagePicker) {
-            ImagePicker(image: $inputImage)
-        }
-        .onChange(of: inputImage) {
-            loadImage()
+            .padding([.horizontal, .bottom])
+            .navigationTitle("Instafilter")
         }
     }
     
-    func loadImage() {
-        guard let inputImage = inputImage else { return }
-        image = Image(uiImage: inputImage)
-        UIImageWriteToSavedPhotosAlbum(inputImage, nil, nil, nil)
+    func save() {
+        
     }
-    
-    
-    
-//    @State private var image: Image?
-//    
-//    var body: some View {
+}
+
+#Preview {
+    ContentView()
+}
+
+
 //        VStack {
 //            image?
 //                .resizable()
 //                .scaledToFit()
+//
+//            Button("Select Image") {
+//                showingImagePicker = true
+//            }
+//
+//            Button("Save Image") {
+//                guard let inputImage = inputImage else { return }
+//
+//                let imageSaver = ImageSaver()
+//                imageSaver.writePhotoToAlbum(image: inputImage)
+//            }
 //        }
-//        .onAppear(perform: loadImage)
-//    }
-//    
-//    func loadImage() {
-//        guard let inputImage = UIImage(named: "shalltear") else {
-//            return
+//        .sheet(isPresented: $showingImagePicker) {
+//            ImagePicker(image: $inputImage)
 //        }
-//        let beginImage = CIImage(image: inputImage)
-//        
-//        let context = CIContext()
-//        let currentFilter = CIFilter.sepiaTone()
-//        // let currentFilter = CIFilter.pixellate()
-//        // let currentFilter = CIFilter.crystallize()
-//        // let currentFilter = CIFilter.twirlDistortion()
-//        
-//        currentFilter.inputImage = beginImage
-//        let amount = 1.0
-//        let inputKeys = currentFilter.inputKeys
-//        if inputKeys.contains(kCIInputIntensityKey) {
-//            currentFilter.setValue(amount, forKey: kCIInputIntensityKey)
+//        .onChange(of: inputImage) {
+//            loadImage()
 //        }
-//        if inputKeys.contains(kCIInputRadiusKey) {
-//            currentFilter.setValue(amount * 200, forKey: kCIInputRadiusKey)
-//        }
-//        if inputKeys.contains(kCIInputScaleKey) {
-//            currentFilter.setValue(amount * 10, forKey: kCIInputScaleKey)
-//        }
-//        // currentFilter.intensity = 1
-//        // currentFilter.scale = 100
-//        // currentFilter.radius = 200
-//        // currentFilter.radius = 1000
-//        // currentFilter.center = CGPoint(x: inputImage.size.width / 2, y: inputImage.size.height / 2)
-//        
-//        // Get a CIImage from our filter or exit if that fails
-//        guard let outputImage = currentFilter.outputImage else {
-//            return
-//        }
-//        
-//        // Attempt to get a CGImage from the CIImage
-//        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-//            // Convert that to a UIImage
-//            let uiImage = UIImage(cgImage: cgimg)
-//            
-//            // And convert that to a SwiftUI image
-//            image = Image(uiImage: uiImage)
-//        }
-//    }
-}
 
-class ImageSaver: NSObject {
-    func writePhotoToAlbum(image: UIImage) {
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
-    }
-    
-    @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError: Error?, contextInfo: UnsafeRawPointer) {
-        print("Save Finised!")
-    }
-}
 
 //struct ContentView: View {
 //    @State private var blurAmount: CGFloat = 0.0 {
@@ -132,7 +105,7 @@ class ImageSaver: NSObject {
 //    }
 //    @State private var showingConfirmation = false
 //    @State private var backgroundColor = Color.white
-//    
+//
 //    var body: some View {
 //        VStack {
 //            Text("Hello, world!")
@@ -150,12 +123,12 @@ class ImageSaver: NSObject {
 //                } message: {
 //                    Text("Select a new color")
 //                }
-//            
+//
 //            Slider(value: $blurAmount, in: 0...20)
 //                .onChange(of: blurAmount) {
 //                    print("New value is \(blurAmount)")
 //                }
-//            
+//
 //            Button("Random Blur") {
 //                blurAmount = Double.random(in: 0...20)
 //            }
@@ -163,6 +136,76 @@ class ImageSaver: NSObject {
 //    }
 //}
 
-#Preview {
-    ContentView()
-}
+//    @State private var image: Image?
+//
+//    var body: some View {
+//        VStack {
+//            image?
+//                .resizable()
+//                .scaledToFit()
+//        }
+//        .onAppear(perform: loadImage)
+//    }
+//
+//    func loadImage() {
+//        guard let inputImage = UIImage(named: "shalltear") else {
+//            return
+//        }
+//        let beginImage = CIImage(image: inputImage)
+//
+//        let context = CIContext()
+//        let currentFilter = CIFilter.sepiaTone()
+//        // let currentFilter = CIFilter.pixellate()
+//        // let currentFilter = CIFilter.crystallize()
+//        // let currentFilter = CIFilter.twirlDistortion()
+//
+//        currentFilter.inputImage = beginImage
+//        let amount = 1.0
+//        let inputKeys = currentFilter.inputKeys
+//        if inputKeys.contains(kCIInputIntensityKey) {
+//            currentFilter.setValue(amount, forKey: kCIInputIntensityKey)
+//        }
+//        if inputKeys.contains(kCIInputRadiusKey) {
+//            currentFilter.setValue(amount * 200, forKey: kCIInputRadiusKey)
+//        }
+//        if inputKeys.contains(kCIInputScaleKey) {
+//            currentFilter.setValue(amount * 10, forKey: kCIInputScaleKey)
+//        }
+//        // currentFilter.intensity = 1
+//        // currentFilter.scale = 100
+//        // currentFilter.radius = 200
+//        // currentFilter.radius = 1000
+//        // currentFilter.center = CGPoint(x: inputImage.size.width / 2, y: inputImage.size.height / 2)
+//
+//        // Get a CIImage from our filter or exit if that fails
+//        guard let outputImage = currentFilter.outputImage else {
+//            return
+//        }
+//
+//        // Attempt to get a CGImage from the CIImage
+//        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+//            // Convert that to a UIImage
+//            let uiImage = UIImage(cgImage: cgimg)
+//
+//            // And convert that to a SwiftUI image
+//            image = Image(uiImage: uiImage)
+//        }
+//    }
+
+
+//class ImageSaver: NSObject {
+//    func writePhotoToAlbum(image: UIImage) {
+//        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
+//    }
+//    
+//    @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError: Error?, contextInfo: UnsafeRawPointer) {
+//        print("Save Finised!")
+//    }
+//}
+
+
+//func loadImage() {
+//    guard let inputImage = inputImage else { return }
+//    image = Image(uiImage: inputImage)
+//    UIImageWriteToSavedPhotosAlbum(inputImage, nil, nil, nil)
+//}
