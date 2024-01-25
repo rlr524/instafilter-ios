@@ -11,6 +11,7 @@
 		D455488F2B215D4100A105C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D455488E2B215D4100A105C1 /* ContentView.swift */; };
 		D45548912B215D4200A105C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D45548902B215D4200A105C1 /* Assets.xcassets */; };
 		D45548942B215D4200A105C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D45548932B215D4200A105C1 /* Preview Assets.xcassets */; };
+		D47282DA2B6213B800822BBE /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47282D92B6213B800822BBE /* ImageSaver.swift */; };
 		D4F7D7DD2B3115F1007D0960 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F7D7DC2B3115F1007D0960 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
@@ -20,6 +21,7 @@
 		D455488E2B215D4100A105C1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D45548902B215D4200A105C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D45548932B215D4200A105C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D47282D92B6213B800822BBE /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		D4F7D7DC2B3115F1007D0960 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,6 +58,7 @@
 				D455488C2B215D4100A105C1 /* InstafilterApp.swift */,
 				D455488E2B215D4100A105C1 /* ContentView.swift */,
 				D4F7D7DC2B3115F1007D0960 /* ImagePicker.swift */,
+				D47282D92B6213B800822BBE /* ImageSaver.swift */,
 				D45548902B215D4200A105C1 /* Assets.xcassets */,
 				D45548922B215D4200A105C1 /* Preview Content */,
 			);
@@ -143,6 +146,7 @@
 				D4F7D7DD2B3115F1007D0960 /* ImagePicker.swift in Sources */,
 				D455488F2B215D4100A105C1 /* ContentView.swift in Sources */,
 				D455488D2B215D4100A105C1 /* InstafilterApp.swift in Sources */,
+				D47282DA2B6213B800822BBE /* ImageSaver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
